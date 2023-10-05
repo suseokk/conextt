@@ -20,7 +20,7 @@ initial begin
    w1.stat();
    w1.levelup();
    w1.stat();
-   w1.Total_Num();
+   w1.Total_Info();
 
 
    b1 = w1;                     //b1에 w1 
@@ -33,7 +33,7 @@ initial begin
    m1.mage_skill();
    m1.levelup();
    m1.stat();
-   m1.Total_Num();
+   m1.Total_Info();
    
 
    $finish; 
