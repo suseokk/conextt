@@ -44,7 +44,7 @@ class Beginner;
       LUK = LUK + 1;
    endfunction
 
-   function total_num();
+   function Total_Num();
       $display("total number : %d\n", total_num); // 공격 방식 변경 
       
    endfunction
