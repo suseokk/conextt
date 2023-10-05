@@ -20,9 +20,10 @@ initial begin
    w1.stat();
    w1.levelup();
    w1.stat();
+   w1.total_num();
 
 
-   b1 = w1;
+   b1 = w1;                     //b1에 w1 
    b1.attack();
 
 
@@ -32,6 +33,8 @@ initial begin
    m1.mage_skill();
    m1.levelup();
    m1.stat();
+   m1.total_num();
+   
 
    $finish; 
 
