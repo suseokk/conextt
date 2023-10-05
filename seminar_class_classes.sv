@@ -9,6 +9,7 @@ class Beginner;
    int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
    static int total_num;   //총 캐릭터 수
+   static int total_level;  //모든 캐릭터들의 레벨 합산
    
 
    constraint c_LUK { LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
@@ -42,10 +43,13 @@ class Beginner;
       DEX = DEX + 1;
       INT = INT + 1;
       LUK = LUK + 1;
+      
+      total_level += 1; // 전체 레벨 업데이트
    endfunction
 
-   function Total_Num();
-      $display("total number : %d\n", total_num); // 공격 방식 변경 
+   function Total_Info();
+      $display("total number : %d\n", total_num); 
+      $display("total level : %d\n", total_level);
       
    endfunction
 
