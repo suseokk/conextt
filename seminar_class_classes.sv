@@ -8,7 +8,7 @@ class Beginner;
   int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
   rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
   
-  constraint c_LUK { LUK inside {[1:10]}; }
+	constraint c_LUK { LUK inside {[1:10]}; }	//LUK에 제약을 걸어줌
   
   function new(string name, int STR, int DEX, int INT);
     this.name = name;
