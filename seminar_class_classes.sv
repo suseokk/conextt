@@ -18,7 +18,9 @@ class Beginner;
       this.name = name;
       this.level = 1;
       create_charactor(STR, DEX, INT);
+      
       total_num++;
+      total_level++;
    endfunction
 
    function void create_charactor(int STR, int DEX, int INT);
