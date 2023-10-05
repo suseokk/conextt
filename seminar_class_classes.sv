@@ -3,18 +3,21 @@
 //Class 선언, 객체 생성, 멤버 변수 및 함수 정의
 class Beginner;
    string name; 				// 캐릭터 이름
-   static int level;
+   int level;
    int STR;					//local int STR;	levelup 시 불가능 
    protected int DEX;		//자식 class에서 변경 가능
    int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
+   static int total_num;   //총 캐릭터 수
+   
 
-   constraint c_LUK { LUK inside {[1:10]}; }	//LUK에 제약을 걸어줌
+   constraint c_LUK { LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
 
    function new(string name, int STR, int DEX, int INT);
       this.name = name;
       this.level = 1;
       create_charactor(STR, DEX, INT);
+      total_num++;
    endfunction
 
    function void create_charactor(int STR, int DEX, int INT);
@@ -39,6 +42,11 @@ class Beginner;
       DEX = DEX + 1;
       INT = INT + 1;
       LUK = LUK + 1;
+   endfunction
+
+   function total_num();
+      $display("total number : %d\n", total_num); // 공격 방식 변경 
+      
    endfunction
 
 endclass
