@@ -34,6 +34,8 @@ class Beginner;
     $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
     STR = STR + 1;
     DEX = DEX + 1;
+    INT = INT + 1;
+    LUK = LUK + 1;
   endfunction
   
 endclass
@@ -53,8 +55,10 @@ class Warrior extends Beginner;
   
   function levelup();
     $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
-    STR = STR + 2;
-    DEX = DEX + 1;
+    STR = STR + 3;
+    DEX = DEX + 2;
+    INT = INT + 1;
+    LUK = LUK + 1;
   endfunction
   
    
@@ -76,8 +80,10 @@ class Mage extends Beginner;
   
 	function levelup();
       $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
-    INT = INT + 2;
-    LUK = LUK + 1;
+    STR = INT + 1;
+    DEX = LUK + 1;
+    INT = INT + 3;
+    LUK = LUK + 2;
   endfunction
   
 endclass
