@@ -3,7 +3,7 @@
 module Game;
 Beginner beginner_1;
 Warrior w1;
-Mage maze_1;
+Mage m1;
 
 initial begin
 
