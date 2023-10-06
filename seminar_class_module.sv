@@ -23,8 +23,8 @@ initial begin
    w1.Total_Info();
 
 
-   b1 = w1;                     //b1에 w1 
-   b1.attack();
+   beginner_1 = w1;                     //b1에 w1 
+   beginner_1.attack();
 
 
    m1 = new("Mage",4,4,10);
