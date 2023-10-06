@@ -1,18 +1,18 @@
 //`include "design.sv"
 
 module Game;
-Beginner b1;
+Beginner beginner_1;
 Warrior w1;
-Mage m1;
+Mage maze_1;
 
 initial begin
 
-   b1 = new("Player",9,8,4);
-   b1.randomize; 
-   b1.attack(); 
-   b1.stat();
-   b1.STR = b1.STR +1;
-   b1.stat();
+   beginner_1 = new("Player",9,8,4);
+   beginner_1.randomize; 
+   beginner_1.attack(); 
+   beginner_1.stat();
+   beginner_1.STR = b1.STR +1;
+   beginner_1.stat();
 
    w1 = new("Warrior",9,4,8);
    w1.randomize; 
