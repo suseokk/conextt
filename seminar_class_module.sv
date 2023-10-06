@@ -11,7 +11,7 @@ initial begin
    beginner_1.randomize; 
    beginner_1.attack(); 
    beginner_1.stat();
-   beginner_1.STR = b1.STR +1;
+   beginner_1.STR = beginner_1.STR +1;
    beginner_1.stat();
 
    w1 = new("Warrior",9,4,8);
@@ -23,7 +23,7 @@ initial begin
    w1.Total_Info();
 
 
-   beginner_1 = w1;                     //b1에 w1 
+   beginner_1 = w1;                     //beginner_1에 w1 
    beginner_1.attack();
 
 
