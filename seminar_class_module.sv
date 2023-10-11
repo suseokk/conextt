@@ -10,7 +10,7 @@ Mage m2,m3;
 */
 
 Warrior warrior_array[];
-parameter WARRIOR_ARRAY_SIZE = 100;
+parameter WARRIOR_ARRAY_SIZE = 10;
 
 /*
 initial begin
