@@ -1,6 +1,7 @@
 //hi this is branch : study_bjkim
 //`include "testbench.sv"
 //nametest : bumm
+//emailtest : bumm@conextt.com
 
 //Class 선언, 객체 생성, 멤버 변수 및 함수 정의
 
