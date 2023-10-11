@@ -6,21 +6,21 @@ class Beginner;
    string job;
    string name; 				// 캐릭터 이름
    int level;
-   int STR;					//local int STR;	levelup 시 불가능 
-   protected int DEX;		//자식 class에서 변경 가능
-   int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
+   rand int STR;					//local int STR;	levelup 시 불가능 
+   rand protected int DEX;		//자식 class에서 변경 가능
+   rand int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
    static int total_num;   //총 캐릭터 수
    static int total_level;  //모든 캐릭터들의 레벨 합산
    
 
-   constraint c_LUK { LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
+  constraint c_LUK { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
 
-   function new(string job,string name, int STR, int DEX, int INT);
+   function new(string job,string name);
       this.job = job;
       this.name = name;
       this.level = 1;
-      create_charactor(STR, DEX, INT);
+      //create_charactor();
       
       total_num++;
       total_level++;
@@ -64,8 +64,8 @@ endclass
 //상속(Inheritance)
 class Warrior extends Beginner;
 
-   function new(string name, int STR, int DEX, int INT);
-      super.new("warrior",name,STR, DEX, INT); // 부모 클래스인 Beginner의 생성자 호출 
+   function new(string name);
+      super.new("warrior",name); // 부모 클래스인 Beginner의 생성자 호출 
    endfunction
 
    //다형성(Polymorphism)
@@ -86,8 +86,8 @@ endclass
 
 class Mage extends Beginner;
 
-   function new(string name, int STR, int DEX, int INT);
-      super.new("Mage",name,STR, DEX, INT); 
+   function new(string name);
+      super.new("Mage",name); 
    endfunction
 
    virtual function void attack();
