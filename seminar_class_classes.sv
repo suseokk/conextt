@@ -2,6 +2,33 @@
 //`include "testbench.sv"
 
 //Class 선언, 객체 생성, 멤버 변수 및 함수 정의
+
+
+class Total_Info;
+   static int total_character_num;
+   static int total_character_level;
+  
+  function new();
+  endfunction
+
+   virtual function new_character();
+      total_character_num++;
+      total_character_level++;
+   endfunction
+
+   function character_levelup();
+      total_character_level += 1;
+   endfunction
+
+   function show_total_info();
+     $display("total number : %d\n", total_character_num); 
+     $display("total level : %d\n", total_character_level);
+   endfunction
+   
+endclass
+
+
+
 class Beginner;
    string job;
    int name; 				// 캐릭터 이름
@@ -11,20 +38,26 @@ class Beginner;
    rand int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
    //static int total_num;   //총 캐릭터 수
-   //static int total_level;  //모든 캐릭터들의 레벨 합산
-   
+   //static int total_level;  //모든 캐릭터들의 레벨 합산   
 
   constraint c_LUK { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
 
-   function new(string job,string name);
+  Total_Info to_in;
+  
+  
+   
+  function new(string job,string name);
       this.job = job;
       this.name = name;
       this.level = 1;
+      this.to_in = new();
       //create_charactor();
       
       //total_num++;
       //total_level++;
-      
+        
+    
+      this.to_in.new_character();
    endfunction
 
 //   function void create_charactor(int STR, int DEX, int INT);
@@ -53,23 +86,21 @@ class Beginner;
       //total_level += 1; // 전체 레벨 업데이트
    endfunction
 
-//   function Total_Info();
-//      $display("total number : %d\n", total_num); 
-//      $display("total level : %d\n", total_level);
-//      
+   function show_total_info();
+     this.to_in.show_total_info(); 
+   endfunction
+     
 //   endfunction
 
 endclass
 
 
-//상속(Inheritance)
 class Warrior extends Beginner;
 
    function new(string name);
-      super.new("warrior",name); // 부모 클래스인 Beginner의 생성자 호출 
+     super.new("warrior",name); // 부모 클래스인 Beginner의 생성자 호출 
    endfunction
 
-   //다형성(Polymorphism)
    virtual function void attack();
       $display("%s Sword Attack!\n", name); // 공격 방식 변경 
    endfunction
@@ -80,13 +111,13 @@ class Warrior extends Beginner;
       DEX = DEX + 1;
    endfunction
 
-
 endclass
+
 
 class Mage extends Beginner;
 
    function new(string name);
-      super.new("Mage",name); 
+     super.new("Mage",name); 
    endfunction
 
    virtual function void attack();
@@ -105,23 +136,5 @@ class Mage extends Beginner;
 
 endclass
 
-class Total_Info;
-   static int total_character_num;
-   static int total_character_level;
 
-   function new_character();
-      total_character_num++;
-      total_character_level++;
-   endfunction
-
-   function character_levelup();
-      total_character_level += 1;
-   endfunction
-
-   function show_total_info();
-      $display("total number : %d\n", total_num); 
-      $display("total level : %d\n", total_level);
-   endfunction
-   
-endclass
    
