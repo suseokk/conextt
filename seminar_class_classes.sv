@@ -10,8 +10,8 @@ class Beginner;
    rand protected int DEX;		//자식 class에서 변경 가능
    rand int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
-   static int total_num;   //총 캐릭터 수
-   static int total_level;  //모든 캐릭터들의 레벨 합산
+   //static int total_num;   //총 캐릭터 수
+   //static int total_level;  //모든 캐릭터들의 레벨 합산
    
 
   constraint c_LUK { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
@@ -22,16 +22,17 @@ class Beginner;
       this.level = 1;
       //create_charactor();
       
-      total_num++;
-      total_level++;
+      //total_num++;
+      //total_level++;
+      
    endfunction
 
-   function void create_charactor(int STR, int DEX, int INT);
-      this.STR = STR;
-      this.DEX = DEX;
-      this.INT = INT;
-      //this.LUK = LUK; 
-   endfunction
+//   function void create_charactor(int STR, int DEX, int INT);
+//      this.STR = STR;
+//      this.DEX = DEX;
+//      this.INT = INT;
+//      //this.LUK = LUK; 
+//   endfunction
 
    virtual function void attack();
       $display("%s basic attack !\n", name);
@@ -43,20 +44,20 @@ class Beginner;
 
    function levelup();
       $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
-      level = level + 1;
+      this.level++;
       STR = STR + 1;
       DEX = DEX + 1;
       INT = INT + 1;
       LUK = LUK + 1;
       
-      total_level += 1; // 전체 레벨 업데이트
+      //total_level += 1; // 전체 레벨 업데이트
    endfunction
 
-   function Total_Info();
-      $display("total number : %d\n", total_num); 
-      $display("total level : %d\n", total_level);
-      
-   endfunction
+//   function Total_Info();
+//      $display("total number : %d\n", total_num); 
+//      $display("total level : %d\n", total_level);
+//      
+//   endfunction
 
 endclass
 
@@ -75,7 +76,6 @@ class Warrior extends Beginner;
 
    function levelup();
       super.levelup();
-
       STR = STR + 2;
       DEX = DEX + 1;
    endfunction
@@ -99,9 +99,29 @@ class Mage extends Beginner;
 
    function levelup();
       super.levelup();
-
       INT = INT + 2;
       LUK = LUK + 1;
    endfunction
 
 endclass
+
+class Total_Info;
+   static int total_character_num;
+   static int total_character_level;
+
+   function new_character();
+      total_character_num++;
+      total_character_level++;
+   endfunction
+
+   function character_levelup();
+      total_character_level += 1;
+   endfunction
+
+   function show_total_info();
+      $display("total number : %d\n", total_num); 
+      $display("total level : %d\n", total_level);
+   endfunction
+   
+endclass
+   
