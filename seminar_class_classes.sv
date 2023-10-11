@@ -9,9 +9,6 @@
 class Total_Info;
    static int total_character_num;
    static int total_character_level;
-  
-  function new();
-  endfunction
 
    virtual function total_new_character();
       total_character_num++;
