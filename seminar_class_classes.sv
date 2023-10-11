@@ -36,9 +36,13 @@ class Beginner;
    constraint c_LUK { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//랜덤값 최대 최소
 
    Total_Info to_in;         //Total_Info class 
+
+   virtual function set_job();
+      this.job="Beginner";
+   endfunction
   
   function new(string job,string name);
-      this.job = job;
+      this.set_job;
       this.name = name;
       this.level = 1;
       this.to_in = new();
@@ -74,9 +78,14 @@ endclass
 
 
 class Warrior extends Beginner;
-
+   
+   virtual function set_job();
+      this.job="Warrior";
+   endfunction
+  
    function new(string name);
      super.new("warrior",name); // 부모 클래스인 Beginner의 생성자 호출 
+      this.set_job();
    endfunction
 
    virtual function void attack();
@@ -93,9 +102,15 @@ endclass
 
 
 class Mage extends Beginner;
+     
+   virtual function set_job();
+      this.job="Mage";
+   endfunction
+  
 
    function new(string name);
-     super.new("Mage",name); 
+     super.new("Mage",name);
+      this.set_job();
    endfunction
 
    virtual function void attack();
