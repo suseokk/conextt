@@ -8,8 +8,6 @@ Mage m1;
 Warrior w2;
 Mage m2,m3;
 */
-  
-//  Total_Info to_in = new();
 
 Warrior warrior_array[];
 parameter WARRIOR_ARRAY_SIZE = 10;
@@ -19,7 +17,6 @@ parameter MAGE_ARRAY_SIZE = 20;
 
 /*
 initial begin
-
    beginner_1 = new("Player",9,8,4);
    beginner_1.randomize; 
    beginner_1.attack(); 
@@ -60,25 +57,19 @@ initial begin
    m3.stat();
    m3.Total_Info();
 */
-	//rand int str, dex, inte;
-  
-  //constraint c_stat { str inside {[1:10]}, dex inside {[1:10]}, inte inside {[1:10]}; }
-  
-  
-  
+
+	
 //Warrior 10명
 initial begin 
    warrior_array = new[WARRIOR_ARRAY_SIZE];
 
   for (int i = 0; i < WARRIOR_ARRAY_SIZE; i++) begin
-     
   		warrior_array[i] = new(i);
   		warrior_array[i].randomize;
   end
 
    for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
       warrior_array[i].stat();
-
 end
   
   
@@ -87,7 +78,6 @@ initial begin
   mage_array = new[MAGE_ARRAY_SIZE];
 
   for (int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
-     
   		mage_array[i] = new(i);
   		mage_array[i].randomize;
     	mage_array[i].show_total_info();
@@ -95,12 +85,10 @@ initial begin
 
   for(int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
     mage_array[i].stat();
-  	
   end
 
-
+	
   $finish; 
-
 end
   
   
