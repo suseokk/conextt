@@ -5,6 +5,7 @@ Beginner beginner_1;
 Warrior w1;
 Mage m1;
 Warrior w2;
+Mage m2,m3;
 
 initial begin
 
@@ -40,6 +41,17 @@ initial begin
    w2.randomize;
    w2.stat();
    w2.Total_Info();
+
+   m2 = new("Mage_2",4,4,10);
+   m2.randomize;
+   m2.stat();
+
+   m3 = new("Mage_3",4,4,9);
+   m3.randomize;
+   m3.stat();
+   m3.Total_Info();
+
+
 
 
 
