@@ -55,13 +55,21 @@ initial begin
    m3.stat();
    m3.Total_Info();
 */
-
+	//rand int str, dex, inte;
+  
+  //constraint c_stat { str inside {[1:10]}, dex inside {[1:10]}, inte inside {[1:10]}; }
+  
+  
+  
 
 initial begin 
    warrior_array = new[WARRIOR_ARRAY_SIZE];
 
-   for (int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
-      warrior_array[i] = new(i,10,5,4);
+  for (int i = 0; i < WARRIOR_ARRAY_SIZE; i++) begin
+     
+  		warrior_array[i] = new(i);
+  		warrior_array[i].randomize;
+  end
 
    for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
       warrior_array[i].stat();
