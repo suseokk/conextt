@@ -41,7 +41,7 @@ class Beginner;
       this.job="Beginner";
    endfunction
   
-  function new(string job,string name);
+  function new(string name);
       this.set_job;
       this.name = name;
       this.level = 1;
@@ -84,7 +84,7 @@ class Warrior extends Beginner;
    endfunction
   
    function new(string name);
-     super.new("warrior",name); // 부모 클래스인 Beginner의 생성자 호출 
+     super.new(name); // 부모 클래스인 Beginner의 생성자 호출 
       this.set_job();
    endfunction
 
@@ -109,7 +109,7 @@ class Mage extends Beginner;
   
 
    function new(string name);
-     super.new("Mage",name);
+     super.new(name);
       this.set_job();
    endfunction
 
