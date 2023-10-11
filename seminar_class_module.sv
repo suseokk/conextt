@@ -9,6 +9,10 @@ Warrior w2;
 Mage m2,m3;
 */
 
+
+Beginner beginner_array[];
+parameter BEGINNER_ARRAY_SIZE = 5;
+  
 Warrior warrior_array[];
 parameter WARRIOR_ARRAY_SIZE = 10;
 
@@ -58,6 +62,19 @@ initial begin
    m3.Total_Info();
 */
 
+//beginner 5명
+initial begin 
+  beginner_array = new[BEGINNER_ARRAY_SIZE];
+
+  for (int i = 0; i < BEGINNER_ARRAY_SIZE; i++) begin
+    beginner_array[i] = new(i);
+  		beginner_array[i].randomize;
+  end
+
+  for(int i = 0; i < BEGINNER_ARRAY_SIZE; i++)
+      beginner_array[i].stat();
+end
+  
 	
 //Warrior 10명
 initial begin 
@@ -86,6 +103,9 @@ initial begin
   for(int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
     mage_array[i].stat();
   end
+  
+  mage_array[2].levelup();
+  mage_array[2].show_total_info();
 
 	
   $finish; 
