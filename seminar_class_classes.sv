@@ -4,7 +4,7 @@
 //Class 선언, 객체 생성, 멤버 변수 및 함수 정의
 class Beginner;
    string job;
-   string name; 				// 캐릭터 이름
+   int name; 				// 캐릭터 이름
    int level;
    rand int STR;					//local int STR;	levelup 시 불가능 
    rand protected int DEX;		//자식 class에서 변경 가능
@@ -38,7 +38,7 @@ class Beginner;
    endfunction
 
    function void stat();
-      $display("%s's STAT \nlevel:%d\nSTR:%d\nDEX:%d\nINT:%d\nLUK:%d\n",name,level,STR,DEX,INT,LUK);
+     $display("%s_%d's STAT \nlevel:%d\nSTR:%d\nDEX:%d\nINT:%d\nLUK:%d\n",job, name,level,STR,DEX,INT,LUK);
    endfunction
 
    function levelup();
