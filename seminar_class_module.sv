@@ -4,6 +4,7 @@ module Game;
 Beginner beginner_1;
 Warrior w1;
 Mage m1;
+Warrior w2;
 
 initial begin
 
@@ -35,6 +36,12 @@ initial begin
    m1.stat();
    m1.Total_Info();
    
+   w2 = new("Warrior_2",9,5,3);
+   w2.randomize;
+   w2.stat();
+   w2.Total_Info();
+
+
 
    $finish; 
 
