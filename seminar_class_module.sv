@@ -1,140 +1,109 @@
-//hi this is branch : study_bjkim
-//`include "testbench.sv"
+//`include "design.sv"
 
-//Class 선언, 객체 생성, 멤버 변수 및 함수 정의
-
-
-class Total_Info;
-   static int total_character_num;
-   static int total_character_level;
+module Game;
+/*
+Beginner beginner_1;
+Warrior w1;
+Mage m1;
+Warrior w2;
+Mage m2,m3;
+*/
   
-  function new();
-  endfunction
+//  Total_Info to_in = new();
 
-   virtual function new_character();
-      total_character_num++;
-      total_character_level++;
-   endfunction
+Warrior warrior_array[];
+parameter WARRIOR_ARRAY_SIZE = 10;
 
-   function character_levelup();
-      total_character_level += 1;
-   endfunction
+Mage mage_array[];
+parameter MAGE_ARRAY_SIZE = 20;
 
-   function show_total_info();
-     $display("total number : %d\n", total_character_num); 
-     $display("total level : %d\n", total_character_level);
-   endfunction
+/*
+initial begin
+
+   beginner_1 = new("Player",9,8,4);
+   beginner_1.randomize; 
+   beginner_1.attack(); 
+   beginner_1.stat();
+   beginner_1.STR = beginner_1.STR +1;
+   beginner_1.stat();
+
+   w1 = new("Warrior",9,4,8);
+   w1.randomize; 
+   w1.attack();
+   w1.stat();
+   w1.levelup();
+   w1.stat();
+   w1.Total_Info();
+
+   beginner_1 = w1;                     //beginner_1에 w1 
+   beginner_1.attack();
+
+   m1 = new("Mage",4,4,10);
+   m1.randomize;
+   m1.attack();
+   m1.mage_skill();
+   m1.levelup();
+   m1.stat();
+   m1.Total_Info();
    
-endclass
+   w2 = new("Warrior_2",9,5,3);
+   w2.randomize;
+   w2.stat();
+   w2.Total_Info();
 
+   m2 = new("Mage_2",4,4,10);
+   m2.randomize;
+   m2.stat();
 
-
-class Beginner;
-   string job;
-   int name; 				// 캐릭터 이름
-   int level;
-   rand int STR;					//local int STR;	levelup 시 불가능 
-   rand protected int DEX;		//자식 class에서 변경 가능
-   rand int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
-   rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
-   //static int total_num;   //총 캐릭터 수
-   //static int total_level;  //모든 캐릭터들의 레벨 합산   
-
-  constraint c_LUK { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
-
-  Total_Info to_in;
+   m3 = new("Mage_3",4,4,9);
+   m3.randomize;
+   m3.stat();
+   m3.Total_Info();
+*/
+	//rand int str, dex, inte;
+  
+  //constraint c_stat { str inside {[1:10]}, dex inside {[1:10]}, inte inside {[1:10]}; }
   
   
-   
-  function new(string job,string name);
-      this.job = job;
-      this.name = name;
-      this.level = 1;
-      this.to_in = new();
-      //create_charactor();
-      
-      //total_num++;
-      //total_level++;
-        
-    
-      this.to_in.new_character();
-   endfunction
+  
+//Warrior 10명
+initial begin 
+   warrior_array = new[WARRIOR_ARRAY_SIZE];
 
-//   function void create_charactor(int STR, int DEX, int INT);
-//      this.STR = STR;
-//      this.DEX = DEX;
-//      this.INT = INT;
-//      //this.LUK = LUK; 
-//   endfunction
-
-   virtual function void attack();
-      $display("%s basic attack !\n", name);
-   endfunction
-
-   function void stat();
-     $display("%s_%d's STAT \nlevel:%d\nSTR:%d\nDEX:%d\nINT:%d\nLUK:%d\n",job, name,level,STR,DEX,INT,LUK);
-   endfunction
-
-   function levelup();
-      $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
-      this.level++;
-      STR = STR + 1;
-      DEX = DEX + 1;
-      INT = INT + 1;
-      LUK = LUK + 1;
-      
-      //total_level += 1; // 전체 레벨 업데이트
-   endfunction
-
-   function show_total_info();
-     this.to_in.show_total_info(); 
-   endfunction
+  for (int i = 0; i < WARRIOR_ARRAY_SIZE; i++) begin
      
-//   endfunction
+  		warrior_array[i] = new(i);
+  		warrior_array[i].randomize;
+  end
 
-endclass
+   for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
+      warrior_array[i].stat();
 
+end
+  
+  
+//Mage 20명  
+initial begin 
+  mage_array = new[MAGE_ARRAY_SIZE];
 
-class Warrior extends Beginner;
+  for (int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
+     
+  		mage_array[i] = new(i);
+  		mage_array[i].randomize;
+    	mage_array[i].show_total_info();
+  end
 
-   function new(string name);
-     super.new("warrior",name); // 부모 클래스인 Beginner의 생성자 호출 
-   endfunction
-
-   virtual function void attack();
-      $display("%s Sword Attack!\n", name); // 공격 방식 변경 
-   endfunction
-
-   function levelup();
-      super.levelup();
-      STR = STR + 2;
-      DEX = DEX + 1;
-   endfunction
-
-endclass
-
-
-class Mage extends Beginner;
-
-   function new(string name);
-     super.new("Mage",name); 
-   endfunction
-
-   virtual function void attack();
-      $display("%s Swing Wand!\n", name); // 공격 방식 변경 
-   endfunction
-
-   function void mage_skill();
-      $display("%s Energy bolt!\n", name); // Mage 스킬
-   endfunction 
-
-   function levelup();
-      super.levelup();
-      INT = INT + 2;
-      LUK = LUK + 1;
-   endfunction
-
-endclass
+  for(int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
+    mage_array[i].stat();
+  	
+  end
 
 
-   
+  $finish; 
+
+end
+  
+  
+
+
+endmodule
