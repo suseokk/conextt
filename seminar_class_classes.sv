@@ -13,12 +13,12 @@ class Total_Info;
   function new();
   endfunction
 
-   virtual function new_character();
+   virtual function total_new_character();
       total_character_num++;
       total_character_level++;
    endfunction
 
-   function character_levelup();
+   function total_character_levelup();
       total_character_level += 1;
    endfunction
 
@@ -59,7 +59,7 @@ class Beginner;
       //total_level++;
         
     
-      this.to_in.new_character();
+      this.to_in.total_new_character();
    endfunction
 
 //   function void create_charactor(int STR, int DEX, int INT);
@@ -85,7 +85,7 @@ class Beginner;
       INT = INT + 1;
       LUK = LUK + 1;
       
-      //total_level += 1; // 전체 레벨 업데이트
+      to_in.total_character_levelup(); // 전체 레벨 업데이트
    endfunction
 
    function show_total_info();
