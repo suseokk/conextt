@@ -78,7 +78,7 @@ class Beginner;
    endfunction
 
    function levelup();
-      $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
+      $display("%s_%d LEVEL UP!!\n",job, name); // 공격 방식 변경 
       this.level++;
       STR = STR + 1;
       DEX = DEX + 1;
