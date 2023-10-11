@@ -74,11 +74,10 @@ class Warrior extends Beginner;
    endfunction
 
    function levelup();
-      $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
-      STR = STR + 3;
-      DEX = DEX + 2;
-      INT = INT + 1;
-      LUK = LUK + 1;
+      super.levelup();
+
+      STR = STR + 2;
+      DEX = DEX + 1;
    endfunction
 
 
