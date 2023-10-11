@@ -12,6 +12,9 @@ Mage m2,m3;
 Warrior warrior_array[];
 parameter WARRIOR_ARRAY_SIZE = 10;
 
+Mage mage_array[];
+parameter MAGE_ARRAY_SIZE = 20;
+
 /*
 initial begin
 
@@ -61,7 +64,7 @@ initial begin
   
   
   
-
+//Warrior 10명
 initial begin 
    warrior_array = new[WARRIOR_ARRAY_SIZE];
 
@@ -73,6 +76,22 @@ initial begin
 
    for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
       warrior_array[i].stat();
+
+end
+  
+  
+//Mage 20명  
+initial begin 
+  mage_array = new[MAGE_ARRAY_SIZE];
+
+  for (int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
+     
+  		mage_array[i] = new(i);
+  		mage_array[i].randomize;
+  end
+
+   for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
+      mage_array[i].stat();
 
 
 
