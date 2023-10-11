@@ -1,12 +1,18 @@
 //`include "design.sv"
 
 module Game;
+/*
 Beginner beginner_1;
 Warrior w1;
 Mage m1;
 Warrior w2;
 Mage m2,m3;
+*/
 
+Warrior worrior_array[];
+parameter WARRIOR_ARRAY_SIZE = 100;
+
+/*
 initial begin
 
    beginner_1 = new("Player",9,8,4);
@@ -24,10 +30,8 @@ initial begin
    w1.stat();
    w1.Total_Info();
 
-
    beginner_1 = w1;                     //beginner_1에 w1 
    beginner_1.attack();
-
 
    m1 = new("Mage",4,4,10);
    m1.randomize;
@@ -50,9 +54,14 @@ initial begin
    m3.randomize;
    m3.stat();
    m3.Total_Info();
+*/
 
 
+initial begin 
+   worrior_array = new[WORRIOR_ARRAY_SIZE];
 
+   for (int i = 0; i < WORRIOR_ARRAY_SIZE; i++)
+      worrior_array[i] = new(;
 
 
    $finish; 
