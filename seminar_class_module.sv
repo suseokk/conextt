@@ -9,7 +9,7 @@ Warrior w2;
 Mage m2,m3;
 */
 
-Warrior worrior_array[];
+Warrior warrior_array[];
 parameter WARRIOR_ARRAY_SIZE = 100;
 
 /*
@@ -58,10 +58,14 @@ initial begin
 
 
 initial begin 
-   worrior_array = new[WORRIOR_ARRAY_SIZE];
+   warrior_array = new[WARRIOR_ARRAY_SIZE];
 
-   for (int i = 0; i < WORRIOR_ARRAY_SIZE; i++)
-      worrior_array[i] = new(;
+   for (int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
+      warrior_array[i] = new(i,10,5,4);
+
+   for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++)
+      warrior_array[i].stat();
+
 
 
    $finish; 
