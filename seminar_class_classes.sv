@@ -3,6 +3,7 @@
 
 //Class 선언, 객체 생성, 멤버 변수 및 함수 정의
 class Beginner;
+   string job;
    string name; 				// 캐릭터 이름
    int level;
    int STR;					//local int STR;	levelup 시 불가능 
@@ -15,7 +16,8 @@ class Beginner;
 
    constraint c_LUK { LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
 
-   function new(string name, int STR, int DEX, int INT);
+   function new(string job,string name, int STR, int DEX, int INT);
+      this.job = job;
       this.name = name;
       this.level = 1;
       create_charactor(STR, DEX, INT);
@@ -63,7 +65,7 @@ endclass
 class Warrior extends Beginner;
 
    function new(string name, int STR, int DEX, int INT);
-      super.new(name,STR, DEX, INT); // 부모 클래스인 Beginner의 생성자 호출 
+      super.new("warrior",name,STR, DEX, INT); // 부모 클래스인 Beginner의 생성자 호출 
    endfunction
 
    //다형성(Polymorphism)
@@ -85,7 +87,7 @@ endclass
 class Mage extends Beginner;
 
    function new(string name, int STR, int DEX, int INT);
-      super.new(name,STR, DEX, INT); 
+      super.new("Mage",name,STR, DEX, INT); 
    endfunction
 
    virtual function void attack();
