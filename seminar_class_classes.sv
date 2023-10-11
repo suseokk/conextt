@@ -7,8 +7,8 @@
 
 
 class Total_Info;
-   static int total_character_num;
-   static int total_character_level;
+   static local int total_character_num;
+   static local int total_character_level;
 
    virtual function total_new_character();
       total_character_num++;
