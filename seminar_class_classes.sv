@@ -89,7 +89,6 @@ class Beginner;
      this.to_in.show_total_info(); 
    endfunction
      
-//   endfunction
 
 endclass
 
