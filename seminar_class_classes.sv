@@ -5,21 +5,19 @@
 class Beginner;
    string name; 				// 캐릭터 이름
    int level;
-   int STR;					//local int STR;	levelup 시 불가능 
-   protected int DEX;		//자식 class에서 변경 가능
-   int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
-   rand int LUK;				//rand : 난수를 받을 수 있는 변수 생성
+   rand protected int STR;					//local int STR;	levelup 시 불가능 
+   rand protected int DEX;		//자식 class에서 변경 가능
+   rand protected int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
+   rand protected int LUK;				//rand : 난수를 받을 수 있는 변수 생성
    static int total_num;   //총 캐릭터 수
    static int total_level;  //모든 캐릭터들의 레벨 합산
-   
 
-   constraint c_LUK { LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
+   constraint c { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }
 
    function new(string name, int STR, int DEX, int INT);
       this.name = name;
       this.level = 1;
       create_charactor(STR, DEX, INT);
-      
       total_num++;
       total_level++;
    endfunction
@@ -28,7 +26,7 @@ class Beginner;
       this.STR = STR;
       this.DEX = DEX;
       this.INT = INT;
-      //this.LUK = LUK; 
+      //this.LUK = LUK;
    endfunction
 
    virtual function void attack();
@@ -46,14 +44,13 @@ class Beginner;
       DEX = DEX + 1;
       INT = INT + 1;
       LUK = LUK + 1;
-      
+
       total_level += 1; // 전체 레벨 업데이트
    endfunction
 
    function Total_Info();
-      $display("total number : %d\n", total_num); 
+      $display("total number : %d\n", total_num);
       $display("total level : %d\n", total_level);
-      
    endfunction
 
 endclass
@@ -72,11 +69,12 @@ class Warrior extends Beginner;
    endfunction
 
    function levelup();
+      super.levelup();
       $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
-      STR = STR + 3;
-      DEX = DEX + 2;
-      INT = INT + 1;
-      LUK = LUK + 1;
+      STR = STR + 2;
+      DEX = DEX + 1;
+      //INT = INT + 1;
+      //LUK = LUK + 1;
    endfunction
 
 
