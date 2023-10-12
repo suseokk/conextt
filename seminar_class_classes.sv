@@ -31,9 +31,11 @@ class Beginner;
   	randc int nickname;
    int level;                 //특정 캐릭터의 레벨
    rand int STR;					//local int STR;	levelup 시 불가능 
-   rand protected int DEX;		//자식 class에서 변경 가능
+   rand int DEX;		//자식 class에서 변경 가능
    rand int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				   //rand : 난수를 받을 수 있는 변수 생성
+
+   string weapon;
   
   static int char_cnt;
 
@@ -45,11 +47,17 @@ class Beginner;
    virtual function set_job();
       this.job="Beginner";
    endfunction
+
+   virtual function set_weapon();
+      this.weapon="fist";
+   endfunction
   
      
   
   function new();
-      this.set_job;  
+    
+      this.set_job;
+     this.set_weapon;
       level = 1;
 
   
@@ -70,7 +78,7 @@ class Beginner;
    endfunction
 
    virtual function void attack();
-     $display("%s_%0d%s basic attack !\n",job, id, nickname);
+     $display("%s_%0d%0d %s attack !\n",job, id, nickname, weapon);
    endfunction
   
 
@@ -105,14 +113,16 @@ class Warrior extends Beginner;
    virtual function set_job();
       this.job="Warrior";
    endfunction
+
+   virtual function set_weapon();
+      this.weapon="Sword";
+   endfunction
   
    function new();
      super.new(); // 부모 클래스인 Beginner의 생성자 호출 
       this.set_job();
-   endfunction
-  
-   virtual function void attack();
-     $display("%s_%0d nickname:%0d Sword Attack!\n",job, id, nickname); // 공격 방식 변경 
+      this.set_weapon();
+      $display("%0d's job change %s to %s\n",this.nickname,"Beginner",this.job);
    endfunction
 
    function levelup();
@@ -129,21 +139,25 @@ class Mage extends Beginner;
    virtual function set_job();
       this.job="Mage";
    endfunction
+
+   virtual function set_weapon();
+      this.weapon="Wand";
+   endfunction
   
 
    function new();
      super.new();
       this.set_job();
+      this.set_weapon();
+     $display("%0d's job change %s to %s\n",nickname,"Beginner",this.job);
    endfunction
 
-   virtual function void attack();
-     $display("%s_%0d nickname:%0d Swing Wand!\n",job, id, nickname); // 공격 방식 변경 
-   endfunction
 
    function void mage_skill();
      $display("%s_%0d nickname:%0d Energy bolt!\n",job, id, nickname); // Mage 스킬
    endfunction 
 
+  
    function levelup();
       super.levelup();
       INT = INT + 2;
