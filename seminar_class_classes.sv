@@ -27,14 +27,18 @@ endclass
 
 class Beginner;
    string job;                //직업 명
-   int name; 				      // 캐릭터 명(숫자로 표현)
+   int id; 				      // 캐릭터 명(숫자로 표현)
+  	randc int nickname;
    int level;                 //특정 캐릭터의 레벨
    rand int STR;					//local int STR;	levelup 시 불가능 
    rand protected int DEX;		//자식 class에서 변경 가능
    rand int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				   //rand : 난수를 받을 수 있는 변수 생성
+  
+  static int char_cnt;
 
    constraint c_STAT { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//랜덤값 최대 최소
+  constraint c_NICKNAME { STR inside {[10000:99999]};}	//랜덤값 최대 최소
 
    Total_Info to_in;         //Total_Info class 
 
@@ -42,36 +46,48 @@ class Beginner;
       this.job="Beginner";
    endfunction
   
-  function new(string name);
-      this.set_job;
-      this.name = name;
-      this.level = 1;
+     
+  
+  function new();
+      this.set_job;  
+      level = 1;
+
+  
+    nickname = $urandom_range(10000,99999);
     
-    this.STR = randomize();
-    this.DEX = randomize();
-    this.INT = randomize();
-    this.LUK= randomize();
+    STR = $urandom_range(1,10);
+    DEX = $urandom_range(1,10);
+    INT = $urandom_range(1,10);
+    LUK = $urandom_range(1,10);
+
+     
       
-    this.to_in = new();
+      this.to_in = new();
+    
+      this.id = char_cnt++;
 
       this.to_in.total_new_character();
    endfunction
 
    virtual function void attack();
-      $display("%s basic attack !\n", name);
+     $display("%s_%0d%s basic attack !\n",job, id, nickname);
    endfunction
+  
 
    function void stat();
-     $display("%s_%0d's STAT \nlevel:%0d\nSTR:%0d\nDEX:%0d\nINT:%0d\nLUK:%0d\n",job, name,level,STR,DEX,INT,LUK);
+     $display("%s_%0d's STAT \n nickname:%0d\n level:%0d\n STR:%0d\n DEX:%0d\n INT:%0d\n LUK:%0d\n",job, id,nickname,level,STR,DEX,INT,LUK);
    endfunction
 
+  
    function levelup();
-      $display("%s_%0d LEVEL UP!!\n",job, name); // 공격 방식 변경 
       this.level++;
       STR = STR + 1;
       DEX = DEX + 1;
       INT = INT + 1;
       LUK = LUK + 1;
+     
+     $display("%s_%0d, nickname:%0d LEVEL UP!!\n",job, id, nickname,);
+     stat();
       
       to_in.total_character_levelup(); // 전체 레벨 업데이트
    endfunction
@@ -90,13 +106,13 @@ class Warrior extends Beginner;
       this.job="Warrior";
    endfunction
   
-   function new(string name);
-     super.new(name); // 부모 클래스인 Beginner의 생성자 호출 
+   function new();
+     super.new(); // 부모 클래스인 Beginner의 생성자 호출 
       this.set_job();
    endfunction
-
+  
    virtual function void attack();
-      $display("%s Sword Attack!\n", name); // 공격 방식 변경 
+     $display("%s_%0d nickname:%0d Sword Attack!\n",job, id, nickname); // 공격 방식 변경 
    endfunction
 
    function levelup();
@@ -115,17 +131,17 @@ class Mage extends Beginner;
    endfunction
   
 
-   function new(string name);
-     super.new(name);
+   function new();
+     super.new();
       this.set_job();
    endfunction
 
    virtual function void attack();
-      $display("%s Swing Wand!\n", name); // 공격 방식 변경 
+     $display("%s_%0d nickname:%0d Swing Wand!\n",job, id, nickname); // 공격 방식 변경 
    endfunction
 
    function void mage_skill();
-      $display("%s Energy bolt!\n", name); // Mage 스킬
+     $display("%s_%0d nickname:%0d Energy bolt!\n",job, id, nickname); // Mage 스킬
    endfunction 
 
    function levelup();
