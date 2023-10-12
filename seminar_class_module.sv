@@ -14,7 +14,6 @@ initial begin
 
    for (int i = 0; i < BEGINNER_ARRAY_SIZE; i++) begin
       beginner_array[i] = new(i);
-      beginner_array[i].randomize;
    end
 
    for(int i = 0; i < BEGINNER_ARRAY_SIZE; i++)
@@ -28,7 +27,6 @@ initial begin
 
       for (int i = 0; i < WARRIOR_ARRAY_SIZE; i++) begin  
          warrior_array[i] = new(i);
-         warrior_array[i].randomize;
       end
 
       for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++) begin
@@ -43,7 +41,6 @@ initial begin
 
       for (int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
          mage_array[i] = new(i);
-         mage_array[i].randomize;
          mage_array[i].show_total_info();
       end
 
