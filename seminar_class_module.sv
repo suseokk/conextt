@@ -52,7 +52,8 @@ initial begin
       end
    end
 
-
+   
+initial begin
    warrior_array[3].attack();	
    mage_array[2].levelup();
    mage_array[2].show_total_info();
