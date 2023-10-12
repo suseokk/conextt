@@ -1,3 +1,4 @@
+//design.sv에 첨가
 //hi this is branch : study_bjkim
 //nametest : bumm
 //emailtest : bumm@conextt.com
@@ -33,7 +34,7 @@ class Beginner;
    rand int INT;					//보안화x : module에서 접근이 가능해서 문제 발생 가능
    rand int LUK;				   //rand : 난수를 받을 수 있는 변수 생성
 
-   constraint c_LUK { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//랜덤값 최대 최소
+   constraint c_STAT { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }	//랜덤값 최대 최소
 
    Total_Info to_in;         //Total_Info class 
 
@@ -45,7 +46,13 @@ class Beginner;
       this.set_job;
       this.name = name;
       this.level = 1;
-      this.to_in = new();
+    
+    this.STR = randomize();
+    this.DEX = randomize();
+    this.INT = randomize();
+    this.LUK= randomize();
+      
+    this.to_in = new();
 
       this.to_in.total_new_character();
    endfunction
