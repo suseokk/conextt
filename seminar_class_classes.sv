@@ -17,8 +17,8 @@ class Total_Info;
    endfunction
 
    function show_total_info();                  //총 정보 출력
-     $display("total number : %d\n", total_character_num); 
-     $display("total level : %d\n", total_character_level);
+      $display("total number : %0d\n", total_character_num); 
+      $display("total level : %0d\n", total_character_level);
    endfunction
    
 endclass
@@ -62,11 +62,11 @@ class Beginner;
    endfunction
 
    function void stat();
-     $display("%s_%d's STAT \nlevel:%d\nSTR:%d\nDEX:%d\nINT:%d\nLUK:%d\n",job, name,level,STR,DEX,INT,LUK);
+     $display("%s_%0d's STAT \nlevel:%0d\nSTR:%0d\nDEX:%0d\nINT:%0d\nLUK:%0d\n",job, name,level,STR,DEX,INT,LUK);
    endfunction
 
    function levelup();
-      $display("%s_%d LEVEL UP!!\n",job, name); // 공격 방식 변경 
+      $display("%s_%0d LEVEL UP!!\n",job, name); // 공격 방식 변경 
       this.level++;
       STR = STR + 1;
       DEX = DEX + 1;
