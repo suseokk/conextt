@@ -1,7 +1,7 @@
 //hi this is branch : branch_for_conextt
 //`include "testbench.sv"
 
-//Class 선언, 객체 생성, 멤버 변수 및 함수 정의
+//Class 선언,e;
 class Beginner;
    string name; 				// 캐릭터 이름
    int level;
@@ -12,21 +12,13 @@ class Beginner;
    static int total_num;   //총 캐릭터 수
    static int total_level;  //모든 캐릭터들의 레벨 합산
 
-   constraint c { STR inside {[1:10]}; DEX inside {[1:10]}; INT inside {[1:10]}; LUK inside {[1:10]}; }
+   constraint c { STR inside {[4:10]}; DEX inside {[4:10]}; INT inside {[4:10]}; LUK inside {[4:10]}; }
 
-   function new(string name, int STR, int DEX, int INT);
+   function new(string name);
       this.name = name;
       this.level = 1;
-      create_charactor(STR, DEX, INT);
       total_num++;
       total_level++;
-   endfunction
-
-   function void create_charactor(int STR, int DEX, int INT);
-      this.STR = STR;
-      this.DEX = DEX;
-      this.INT = INT;
-      //this.LUK = LUK;
    endfunction
 
    virtual function void attack();
@@ -34,56 +26,53 @@ class Beginner;
    endfunction
 
    function void stat();
-      $display("%s's STAT \nlevel:%d\nSTR:%d\nDEX:%d\nINT:%d\nLUK:%d\n",name,level,STR,DEX,INT,LUK);
+      $display("%s's STAT \nlevel:%0d\nSTR:%0d\nDEX:%0d\nINT:%0d\nLUK:%0d\n",name,level,STR,DEX,INT,LUK);
    endfunction
 
    function levelup();
-      $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
       level = level + 1;
       STR = STR + 1;
       DEX = DEX + 1;
       INT = INT + 1;
       LUK = LUK + 1;
 
+      $display("%s LEVEL UP!!(LEVEL=%0d)\n", name, level); // 공격 방식 변경 
+
       total_level += 1; // 전체 레벨 업데이트
    endfunction
 
    function Total_Info();
-      $display("total number : %d\n", total_num);
-      $display("total level : %d\n", total_level);
+      $display("total number : %0d\n", total_num);
+      $display("total level : %0d\n", total_level);
    endfunction
 
 endclass
 
-
-//상속(Inheritance)
 class Warrior extends Beginner;
 
-   function new(string name, int STR, int DEX, int INT);
-      super.new(name,STR, DEX, INT); // 부모 클래스인 Beginner의 생성자 호출 
+   function new(string name);
+      super.new(name); // 부모 클래스인 Beginner의 생성자 호출 
    endfunction
 
-   //다형성(Polymorphism)
    virtual function void attack();
       $display("%s Sword Attack!\n", name); // 공격 방식 변경 
    endfunction
 
+	function void warrior_skill();
+		$display("%s Power strike!\n", name);
+
    function levelup();
       super.levelup();
-      $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
       STR = STR + 2;
       DEX = DEX + 1;
-      //INT = INT + 1;
-      //LUK = LUK + 1;
    endfunction
-
 
 endclass
 
 class Mage extends Beginner;
 
-   function new(string name, int STR, int DEX, int INT);
-      super.new(name,STR, DEX, INT); 
+   function new(string name);
+      super.new(name); 
    endfunction
 
    virtual function void attack();
@@ -96,7 +85,6 @@ class Mage extends Beginner;
 
    function levelup();
       super.levelup();
-
       INT = INT + 2;
       LUK = LUK + 1;
    endfunction
