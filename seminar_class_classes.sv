@@ -18,18 +18,13 @@ class Beginner;
    function new(string name, int STR, int DEX, int INT);
       this.name = name;
       this.level = 1;
-      create_charactor(STR, DEX, INT);
-      
+      this.STR = STR;
+      this.DEX = DEX;
+      this.INT = INT;
       total_num++;
       total_level++;
    endfunction
 
-   function void create_charactor(int STR, int DEX, int INT);
-      this.STR = STR;
-      this.DEX = DEX;
-      this.INT = INT;
-      //this.LUK = LUK; 
-   endfunction
 
    virtual function void attack();
       $display("%s basic attack !\n", name);
