@@ -1,65 +1,29 @@
 //`include "design.sv"
 
 module Game;
-Beginner beginner_1;
-Warrior w1,w2;
-Mage m1,m2,m3;
+character my_party[$];
+
+Warrior  w0;
+Mage     m0;
 
 initial begin
+   for (int i = 0; i <100;, i++) begin
+      w0 = new;
+      my_party.push_back(w0);
+   end
 
-   beginner_1 = new("Player",9,8,4);
-   beginner_1.randomize; 
-   beginner_1.attack(); 
-   beginner_1.stat();
-   beginner_1.STR = beginner_1.STR +1;
-   beginner_1.stat();
+   for (int i = 0; i<200;, i++) begin
+      m0 = new;
+      my_party.push.push_back(m0);
+   end
 
-   w1 = new("Warrior",9,4,8);
-   w1.randomize; 
-   w1.attack();
-   w1.stat();
-   w1.levelup();
-   w1.stat();
-   w1.Total_Info();
-
-   w2 = new("Warrior",9,4,8);
-   w2.randomize; 
-   w2.attack();
-   w2.stat();
-   w2.levelup();
-   w2.stat();
-   w2.Total_Info();
-
-   beginner_1 = w1;                     //beginner_1에 w1 
-   beginner_1.attack();
-
-
-   m1 = new("Mage",4,4,10);
-   m1.randomize;
-   m1.attack();
-   m1.mage_skill();
-   m1.levelup();
-   m1.stat();
-   m1.Total_Info();
-   
-
-   m2= new("Mage",4,4,10);
-   m2.randomize;
-   m2.attack();
-   m2.mage_skill();
-   m2.levelup();
-   m2.stat();
-   m2.Total_Info();
-
-   m3= new("Mage",4,4,10);
-   m3.randomize;
-   m3.attack();
-   m3.mage_skill();
-   m3.levelup();
-   m3.stat();
-   m3.Total_Info();
-   $finish; 
-
+   for (int i = 0; i < my_party.size(); i++) begin
+      my_party[i].show_status;
+      for(int j = 0; j<my_party[i].level+1; j++) begin
+         my_party[i].attack;
+      end
+      my_party[i].LEVEL_UP;
+   end
 end
 
 endmodule
