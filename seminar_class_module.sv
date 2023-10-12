@@ -3,7 +3,7 @@
 module Game;
 Beginner beginner_1;
 Warrior w1,w2;
-Mage m1;
+Mage m1,m2,m3;
 
 initial begin
 
@@ -43,6 +43,21 @@ initial begin
    m1.Total_Info();
    
 
+   m2= new("Mage",4,4,10);
+   m2.randomize;
+   m2.attack();
+   m2.mage_skill();
+   m2.levelup();
+   m2.stat();
+   m2.Total_Info();
+
+   m3= new("Mage",4,4,10);
+   m3.randomize;
+   m3.attack();
+   m3.mage_skill();
+   m3.levelup();
+   m3.stat();
+   m3.Total_Info();
    $finish; 
 
 end

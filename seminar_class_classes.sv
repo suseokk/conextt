@@ -34,7 +34,7 @@ class Beginner;
       $display("%s's STAT \nlevel:%d\nSTR:%d\nDEX:%d\nINT:%d\nLUK:%d\n",name,level,STR,DEX,INT,LUK);
    endfunction
 
-   function levelup();
+   virtual function levelup();
       $display("%s LEVEL UP!!\n", name); // 공격 방식 변경 
       level = level + 1;
       STR = STR + 1;
@@ -62,7 +62,7 @@ class Warrior extends Beginner;
    endfunction
 
    //다형성(Polymorphism)
-   virtual function void attack();
+   virtual task void attack();
       $display("%s Sword Attack!\n", name); // 공격 방식 변경 
    endfunction
 
