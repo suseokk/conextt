@@ -2,8 +2,10 @@
 
 module Game;
 Beginner beginner_1;
-Warrior w1, w2;
-Mage m1, m2, m3;
+Warrior warrior_array[];
+Mage mage_array[];
+parameter WARRIOR_ARRAY_SIZE = 100;
+parameter MAGE_ARRAY_SIZE = 200;
 
 initial begin
 
@@ -15,50 +17,29 @@ initial begin
    beginner_1.stat();
 	beginner_1.Total_Info();
 
-   w1 = new("Warrior");
-   w1.randomize;
-   w1.stat();
-	w1.attack();
-	w1.warrior_skill();
-   w1.levelup();
-   w1.stat();
-   w1.Total_Info();
+	warrior_array = new[WARRIOR_ARRAY_SIZE];
+	for (int i=0; i<WARRIOR_ARRAY_SIZE; i++) begin
+   	warrior_array[i] = new("Warrior");
+   	warrior_array[i].randomize;
+   	warrior_array[i].stat();
+		warrior_array[i].attack();
+		warrior_array[i].warrior_skill();
+   	warrior_array[i].levelup();
+   	warrior_array[i].stat();
+   	warrior_array[i].Total_Info();
+	end
 
-   w2 = new("Warrior");
-   w2.randomize;
-   w2.stat();
-	w2.attack();
-	w2.warrior_skill();
-   w2.levelup();
-   w2.stat();
-   w2.Total_Info();
-
-   m1 = new("Mage");
-   m1.randomize;
-	m1.stat();
-   m1.attack();
-   m1.mage_skill();
-   m1.levelup();
-   m1.stat();
-   m1.Total_Info();
-
-   m2 = new("Mage");
-   m2.randomize;
-	m2.stat();
-   m2.attack();
-   m2.mage_skill();
-   m2.levelup();
-   m2.stat();
-   m2.Total_Info();
-
-   m3 = new("Mage");
-   m3.randomize;
-	m3.stat();
-   m3.attack();
-   m3.mage_skill();
-   m3.levelup();
-   m3.stat();
-   m3.Total_Info();
+	mage_array = new[MAGE_ARRAY_SIZE];
+	for int j=0; j<MAGE_ARRAY_SIZE; j++) begin
+   	mage_array[i] = new("Mage");
+   	mage_array[i].randomize;
+		mage_array[i].stat();
+   	mage_array[i].attack();
+   	mage_array[i].mage_skill();
+   	mage_array[i].levelup();
+   	mage_array[i].stat();
+   	mage_array[i].Total_Info();
+	end
 
 	$finish;
 
