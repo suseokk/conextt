@@ -31,15 +31,21 @@ initial begin
    beginner_1 = w1;                     //beginner_1에 w1 
    beginner_1.attack();
 
+   for (int i = 0; i < 3; i++) begin
+      if(i == 0)
+         m1 = new("Mage",4,4,10);
+      else if(i == 1)
+         m1 = new("Mage",4,6,10);
+      else
+         m1 = new("Mage",6,4,11);
+      m1.randomize;
+      m1.attack();
+      m1.mage_skill();
+      m1.levelup();
+      m1.stat();
+      m1.Total_Info();
+   end
 
-   m1 = new("Mage",4,4,10);
-   m1.randomize;
-   m1.attack();
-   m1.mage_skill();
-   m1.levelup();
-   m1.stat();
-   m1.Total_Info();
-   
 
    $finish; 
 
