@@ -2,7 +2,7 @@
 
 module Game;
 Beginner beginner_1;
-Warrior w1;
+Warrior w1,w2;
 Mage m1;
 
 initial begin
@@ -22,6 +22,13 @@ initial begin
    w1.stat();
    w1.Total_Info();
 
+   w2 = new("Warrior",9,4,8);
+   w2.randomize; 
+   w2.attack();
+   w2.stat();
+   w2.levelup();
+   w2.stat();
+   w2.Total_Info();
 
    beginner_1 = w1;                     //beginner_1에 w1 
    beginner_1.attack();
