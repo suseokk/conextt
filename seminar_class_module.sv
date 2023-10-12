@@ -14,13 +14,18 @@ initial begin
    beginner_1.STR = beginner_1.STR +1;
    beginner_1.stat();
 
-   w1 = new("Warrior",9,4,8);
-   w1.randomize; 
-   w1.attack();
-   w1.stat();
-   w1.levelup();
-   w1.stat();
-   w1.Total_Info();
+   for (int i = 0; i < 2; i++) begin
+      if(i == 0)
+         w1 = new("Warrior",9,4,8);
+      else
+         w1 = new("Warrior",11,4,7);
+      w1.randomize; 
+      w1.attack();
+      w1.stat();
+      w1.levelup();
+      w1.stat();
+      w1.Total_Info();
+   end
 
 
    beginner_1 = w1;                     //beginner_1에 w1 
