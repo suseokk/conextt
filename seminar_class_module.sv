@@ -1,65 +1,42 @@
 module Game;
+  
+  Warrior w0;
+  Mage m0;
 
-Beginner beginner_array[];
-parameter BEGINNER_ARRAY_SIZE = 5;
-Warrior warrior_array[];
-parameter WARRIOR_ARRAY_SIZE = 10;
-Mage mage_array[];
-parameter MAGE_ARRAY_SIZE = 20;
+  Beginner my_party[$];
 
-
-//beginner 5명
-initial begin 
-   beginner_array = new[BEGINNER_ARRAY_SIZE];
-
-   for (int i = 0; i < BEGINNER_ARRAY_SIZE; i++) begin
-      beginner_array[i] = new(i);
-   end
-
-   for(int i = 0; i < BEGINNER_ARRAY_SIZE; i++)
-      beginner_array[i].stat();
-   end
-
-
-   //Warrior 10명
-   initial begin 
-      warrior_array = new[WARRIOR_ARRAY_SIZE];
-
-      for (int i = 0; i < WARRIOR_ARRAY_SIZE; i++) begin  
-         warrior_array[i] = new(i);
-      end
-
-      for(int i = 0; i < WARRIOR_ARRAY_SIZE; i++) begin
-         warrior_array[i].stat();
-      end
-   end
-
-
-   //Mage 20명  
-   initial begin 
-      mage_array = new[MAGE_ARRAY_SIZE];
-
-      for (int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
-         mage_array[i] = new(i);
-         mage_array[i].show_total_info();
-      end
-
-      for(int i = 0; i < MAGE_ARRAY_SIZE; i++) begin
-         mage_array[i].stat();
-      end
-   end
-
-   
 initial begin
-   warrior_array[3].attack();	
-   mage_array[2].levelup();
-   mage_array[2].show_total_info();
+
+  for (int i = 0 ; i < 3 ; i++) begin
+     w0 = new();
+     my_party.push_back(w0); // warrior
+   end
+
+  for (int i = 0 ; i < 5 ; i++) begin
+      m0 = new;
+     my_party.push_back(m0); // mage
+   end
 
 
-   $finish; 
+   for (int i = 0; i< my_party.size(); i++) begin
+     my_party[i].stat();
+   end
+
+   for (int i = 0; i< my_party.size(); i++) begin
+     my_party[i].attack();
+   end
+
+   for (int i = 0; i< my_party.size(); i++) begin
+     my_party[i].levelup();
+   end
+  
+  
+  my_party[1].show_total_info();
+  
+  foreach(my_party[i].level)
+
+
 end
-
-
 
 
 endmodule
