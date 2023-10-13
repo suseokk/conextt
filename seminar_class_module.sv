@@ -7,8 +7,8 @@ Beginner my_party[$];
 Warrior w1;
 Mage m1;
   
-int num_Warrior = 3;  
-int num_Mage = 2;
+int num_Warrior = 102;  
+int num_Mage = 203;
   
 initial begin
   
