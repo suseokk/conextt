@@ -4,6 +4,7 @@
 //emailtest : bumm@conextt.com
 
 class Total_Info;
+
    static local int total_character_num;         //총 캐릭터의 수
    static local int total_character_level;      //캐릭터 레벨의 총 합
 
@@ -74,7 +75,7 @@ class Beginner;
     
       this.id = char_cnt++;
 
-      this.to_in.total_new_character();
+      //this.to_in.total_new_character();
    endfunction
 
    virtual function void attack();
@@ -87,7 +88,7 @@ class Beginner;
    endfunction
 
   
-   function levelup();
+   virtual function levelup();
       this.level++;
       STR = STR + 1;
       DEX = DEX + 1;
@@ -125,7 +126,7 @@ class Warrior extends Beginner;
       $display("%0d's job change %s to %s\n",this.nickname,"Beginner",this.job);
    endfunction
 
-   function levelup();
+   virtual function levelup();
       super.levelup();
       STR = STR + 2;
       DEX = DEX + 1;
@@ -158,7 +159,7 @@ class Mage extends Beginner;
    endfunction 
 
   
-   function levelup();
+   virtual function levelup();
       super.levelup();
       INT = INT + 2;
       LUK = LUK + 1;
