@@ -1,7 +1,7 @@
-
 //Class 선언, 객체 생성, 멤버 변수 및 함수 정의
 class Beginner;
    string name; 				// 캐릭터 이름
+   string weapon;
    int level;
    int STR;					//local int STR;	levelup 시 불가능 
    protected int DEX;		//자식 class에서 변경 가능
@@ -16,8 +16,9 @@ class Beginner;
    constraint c_LUK { LUK inside {[1:10]}; }	//LUK 랜덤값 최대 최소
   
 	
-  function new(string name, int STR, int DEX, int INT);
+  function new(string name, string weapon, int STR, int DEX, int INT);
       this.name = name;
+      this.weapon = weapon;
       this.level = 1;
       create_charactor(STR, DEX, INT);
       
@@ -32,8 +33,8 @@ class Beginner;
       //this.LUK = LUK; 
    endfunction
 
-   virtual function void attack();
-      $display("%s basic attack !\n", name);
+   function void attack();
+     $display("%s %s attack !\n", name, weapon);
    endfunction
 
    function void stat();
@@ -58,13 +59,8 @@ endclass
 //상속(Inheritance)
 class Warrior extends Beginner;
 
-   function new(string name, int STR, int DEX, int INT);
-      super.new(name,STR, DEX, INT); // 부모 클래스인 Beginner의 생성자 호출 
-   endfunction
-
-   //다형성(Polymorphism)
-   virtual function void attack();
-      $display("%s Sword Attack!\n", name); // 공격 방식 변경 
+  function new(string name, string weapon, int STR, int DEX, int INT);
+    super.new(name, weapon, STR, DEX, INT); // 부모 클래스인 Beginner의 생성자 호출 
    endfunction
 
    virtual function levelup();
@@ -78,17 +74,9 @@ endclass
 
 class Mage extends Beginner;
 
-   function new(string name, int STR, int DEX, int INT);
-     super.new(name, STR, DEX, INT); 
+  function new(string name, string weapon, int STR, int DEX, int INT);
+     super.new(name, weapon, STR, DEX, INT); 
    endfunction
-
-   virtual function void attack();
-      $display("%s Swing Wand!\n", name); // 공격 방식 변경 
-   endfunction
-
-   function void mage_skill();
-      $display("%s Energy bolt!\n", name); // Mage 스킬
-   endfunction 
 
    virtual function levelup();
       super.levelup();
