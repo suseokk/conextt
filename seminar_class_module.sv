@@ -1,3 +1,5 @@
+//giggle test
+
 module Game;
    Beginner my_party[$];
    Warrior w1;
