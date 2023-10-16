@@ -91,11 +91,7 @@ initial begin
     end
   end
  
-  
-  
   my_party[3].show_total_info();
-  
-  //foreach(my_party[i].level);
 
 
 end
