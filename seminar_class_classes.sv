@@ -1,3 +1,5 @@
+// giggle test2
+
 class Total_info;
    static int total_num;
    static int total_level;
