@@ -75,7 +75,7 @@ class Beginner;
     
       this.id = char_cnt++;
 
-      //this.to_in.total_new_character();
+      this.to_in.total_new_character();
    endfunction
 
    virtual function void attack();
