@@ -1,4 +1,5 @@
-//giggle test2
+//giggle test
+//git-cola
 
 module Game;
    Beginner my_party[$];

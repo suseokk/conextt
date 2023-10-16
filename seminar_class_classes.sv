@@ -1,4 +1,5 @@
 // giggle test2
+// git-cola
 
 class Total_info;
    static int total_num;
