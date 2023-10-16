@@ -1,5 +1,6 @@
 // giggle test2
 // git-cola
+// gitui
 
 class Total_info;
    static int total_num;
