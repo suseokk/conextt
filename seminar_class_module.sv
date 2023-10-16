@@ -15,8 +15,11 @@ initial begin
     b0 = new();
     tot_inf = new();
     my_party.push_back(b0); // warrior
-    tot_inf.total_new_character();
+    //tot_inf.total_new_character();
    end
+  
+  foreach (my_party[i])
+    my_party[i].to_in = tot_inf;
   
 
 /*  for (int i = 0 ; i < 3 ; i++) begin
@@ -99,5 +102,3 @@ end
 
 
 endmodule
-
-
