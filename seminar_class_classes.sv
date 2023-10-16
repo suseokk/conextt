@@ -54,39 +54,31 @@ class Beginner;
    endfunction
   
      
-  
   function new();
     
-      this.set_job;
+     this.set_job;
      this.set_weapon;
-      level = 1;
-
-  
-    nickname = $urandom_range(10000,99999);
+     level = 1;
+     this.to_in = new();
+     nickname = $urandom_range(10000,99999);
     
-    STR = $urandom_range(1,10);
-    DEX = $urandom_range(1,10);
-    INT = $urandom_range(1,10);
-    LUK = $urandom_range(1,10);
+     STR = $urandom_range(1,10);
+     DEX = $urandom_range(1,10);
+     INT = $urandom_range(1,10);
+     LUK = $urandom_range(1,10);
 
-     
-      
-      this.to_in = new();
-    
       this.id = char_cnt++;
 
-      this.to_in.total_new_character();
+     this.to_in.total_new_character();
    endfunction
 
    virtual function void attack();
      $display("%s_%0d%0d %s attack !\n",job, id, nickname, weapon);
    endfunction
   
-
    function void stat();
      $display("%s_%0d's STAT \n nickname:%0d\n level:%0d\n STR:%0d\n DEX:%0d\n INT:%0d\n LUK:%0d\n",job, id,nickname,level,STR,DEX,INT,LUK);
    endfunction
-
   
    virtual function levelup();
       this.level++;
@@ -104,9 +96,9 @@ class Beginner;
    function show_total_info();
      this.to_in.show_total_info(); 
    endfunction
-     
 
 endclass
+
 
 
 class Warrior extends Beginner;
