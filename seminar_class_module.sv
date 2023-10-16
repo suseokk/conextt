@@ -1,6 +1,7 @@
 //giggle test
 //git-cola
 //gitui
+//gitfiend
 
 module Game;
    Beginner my_party[$];

@@ -1,6 +1,7 @@
 // giggle test2
 // git-cola
 // gitui
+// gitfiend
 
 class Total_info;
    static int total_num;
