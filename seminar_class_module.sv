@@ -1,4 +1,4 @@
-//giggle test
+//giggle test2
 
 module Game;
    Beginner my_party[$];
