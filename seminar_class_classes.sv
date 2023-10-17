@@ -1,5 +1,5 @@
 // giggle test2
-// git-cola
+// git-cola -- add, push
 // gitui
 // gitfiend  add
 // gittgtt
