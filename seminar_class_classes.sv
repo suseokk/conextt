@@ -1,10 +1,5 @@
 //push
-
-// giggle test2
-// git-cola -- add, push
-// gitui
-// gitfiend  add
-// gittgtt
+//pull
 
 class Total_info;
    static int total_num;
