@@ -2,6 +2,7 @@
 // git-cola
 // gitui
 // gitfiend
+// gittgtt
 
 class Total_info;
    static int total_num;
