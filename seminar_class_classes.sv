@@ -1,12 +1,6 @@
 //push
 //pull
 
-// giggle test2
-// git-cola -- add, push
-// gitui
-// gitfiend  add
-// gittgtt
-
 class Total_info;
    static int total_num;
    static int total_level;
@@ -61,7 +55,7 @@ class Beginner;
       INT = INT + 1;
       LUK = LUK + 1;
 
-      Info.total_level += 1; // 전체 레벨 업데이트
+      Info.total_level += 10; // 전체 레벨 업데이트
    endfunction
 endclass
 
