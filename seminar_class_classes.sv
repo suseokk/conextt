@@ -1,7 +1,7 @@
 // giggle test2
 // git-cola
 // gitui
-// gitfiend
+// gitfiend  add
 // gittgtt
 
 class Total_info;
