@@ -1,4 +1,5 @@
 //push
+//pull
 
 // giggle test2
 // git-cola -- add, push
