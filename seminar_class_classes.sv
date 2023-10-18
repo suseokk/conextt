@@ -55,7 +55,7 @@ class Beginner;
       INT = INT + 1;
       LUK = LUK + 1;
 
-      Info.total_level += 10; // 전체 레벨 업데이트
+      Info.total_level++; // 전체 레벨 업데이트
    endfunction
 endclass
 
