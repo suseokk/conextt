@@ -195,18 +195,15 @@ module tb;
    clk_if m_clk_if();
    mul_if _if();
    //mul u0(_if.a,_if.b,_if.y);
-//################################################## using assign
-   logic [3:0] a;
-   logic [3:0] b;
-   logic [7:0] y;
-   mul u0(a, b, y);
-   assign a = _if.a;
-   assign b = _if.b;
-   assign _if.y = y;
+//################################################## port connection by name
+   mul u0(
+      .a(_if.a),
+      .b(_if.b),
+      .y(_if.y));
+//##################################################
 
    initial begin
       test t0;
-//##################################################
       t0 = new;
 
       t0.e0._vif = _if;
