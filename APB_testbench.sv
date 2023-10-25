@@ -39,13 +39,21 @@ module tb
       nrst <= 0;
       #20 nrst <= 1;
       #20 psel <= 1;
-      penable <= 1;
+      #20 penable <= 1;
       pwrite <= 1;
-      paddr <= 2;
-      prot <= 3'b1;
-      pwdata <= 32'h1004;
+      //paddr <= 2;
+      prot <= 0;
+      pstrb <= 4'b1111;
+      for(int i=0; i<16; i++)begin
+         pwdata = $urandom();
+         paddr = i;
+         #20;
+      end
       #20 pwrite <= 0;
-      #20 $display("pwdata = %0h prdata = %0h",pwdata, prdata);
+      for(int i=0; i<16; i++)begin
+         paddr = i;
+         #20;
+      end
       #100 $finish;
    end
    initial begin
