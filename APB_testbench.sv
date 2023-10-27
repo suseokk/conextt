@@ -3,15 +3,20 @@ class Packet#(
    DATA_WIDTH = 32,
    DATA_STRB = (DATA_WIDTH/8));
 
-   randc bit [2:0] prot;
+   rand  bit [2:0] prot;
    randc bit [DATA_STRB-1:0] pstrb;
-   //randc logic [ADDR_WIDTH-1:0] paddr;
    randc logic [3:0] paddr;
-   randc logic [DATA_WIDTH-1:0] pwdata;
-   randc logic [DATA_WIDTH-1:0] prdata;
+         //logic [3:0] paddr;
+   rand  logic [DATA_WIDTH-1:0] pwdata;
+   rand  logic [DATA_WIDTH-1:0] prdata;
+
+   constraint c_prot {prot == 1;}
+   constraint c_pstrb {pstrb == 4'b1111;}
+   //constraint c_addr {paddr inside {[0:15]};}
+   //constraint c_addr {paddr < 16;}
 
    function void print(string tag="");
-      $display("T=%0t [%s] paddr=%0h pwdata=%0h prdata=%0h", $time, tag, paddr, pwdata, prdata);
+      //$display("T=%0t [%s] paddr=%0h pwdata=%0h prdata=%0h", $time, tag, paddr, pwdata, prdata);
    endfunction
 endclass
 
@@ -22,29 +27,30 @@ class driver;
    mailbox drv_mbx;
 
    task run();
-      $display("driver is starting");
+      //$display("driver is starting");
       _vif.psel    = 0;
       _vif.penable = 0;
+      @(posedge clk_vif.clk);
       forever begin
          Packet item;
-         @(posedge clk_vif.clk);
-         drv_mbx.get(item);
-         item.print("driver");
-         @(negedge clk_vif.clk);
+
          _vif.psel    = 1;
          _vif.penable = 0;
-         @(negedge clk_vif.clk);
-         _vif.penable = 1;
-         @(posedge clk_vif.clk);
+         drv_mbx.get(item);
          _vif.prot   = item.prot;
          _vif.pstrb  = item.pstrb;
          _vif.paddr  = item.paddr;
          _vif.pwdata = item.pwdata;
          _vif.prdata = item.prdata;
          ->drv_done;
-         @(negedge clk_vif.clk);
+         item.print("driver");
+         @(posedge clk_vif.clk);
+         //@(negedge clk_vif.clk);
+         _vif.penable = 1;
+         @(posedge clk_vif.clk);
          _vif.psel    = 0;
          _vif.penable = 0;
+         @(posedge clk_vif.clk);
       end
    endtask
 endclass
@@ -57,12 +63,23 @@ class generator;
 
    task run();
       //for (int i=0; i<$size(_vif.paddr); i++)begin
-      for (int i=0; i<1; i++)begin
+      for (int i=0; i<16; i++) begin
          Packet item = new;
-         item.randomize() with {
-                                 prot == 1;
-                                 pstrb == 4'b1111;};
-         $display("T=%0t %0d/%0d [gernerated] paddr=%0h pwdata=%0h prdata=%0h",$time, i+1,$size(_vif.paddr), item.paddr, item.pwdata, item.prdata);
+
+         if (i < 16) begin
+            _vif.pwrite = 1;
+            //_vif.paddr = i;
+         end else begin
+            _vif.pwrite = 0;
+            //_vif.paddr = i-16;
+         end
+         item.randomize();
+         //assert (item.randomize());
+         //item.randomize() with {
+         //                        prot == 1;
+         //                        pstrb == 4'b1111;};
+         //$display("T=%0t %0d/%0d [gernerated] paddr=%0h pwdata=%0h prdata=%0h",$time, i+1,$size(_vif.paddr), item.paddr, item.pwdata, item.prdata);
+         $display("T=%0t %0d/%0d [gernerated] paddr=%0h paddr=%0d paddr=%0b", $time, i+1,$size(_vif.paddr), item.paddr, item.paddr, item.paddr);
          drv_mbx.put(item);
          @(drv_done);
          @(negedge clk_vif.clk);
@@ -76,7 +93,7 @@ class monitor;
    mailbox scb_mbx;
 
    task run();
-      $display("monitor is starting");
+      //$display("monitor is starting");
       @(posedge clk_vif.clk);
       forever begin
          Packet rtl_item = new();
@@ -193,7 +210,8 @@ interface tb_if#(
    bit pready;
    bit [2:0] prot;
    bit [DATA_STRB-1:0] pstrb;
-   logic [ADDR_WIDTH-1:0] paddr;
+   //logic [ADDR_WIDTH-1:0] paddr;
+   logic [3:0] paddr;
    logic [DATA_WIDTH-1:0] pwdata;
    logic [DATA_WIDTH-1:0] prdata;
    logic slverr;
@@ -227,26 +245,6 @@ module tb;
       .prdata (_if.prdata));
 
    initial begin
-      /**
-      _if.nrst <= 0;
-      #20 _if.nrst <= 1;
-      #20 _if.psel <= 1;
-      #20 _if.penable <= 1;
-      _if.pwrite <= 1;
-      //paddr <= 2;
-      _if.prot <= 0;
-      _if.pstrb <= 4'b1111;
-      for(int i=0; i<16; i++)begin
-         _if.pwdata = $urandom();
-         _if.paddr = i;
-         #20;
-      end
-      run();
-      #20 _if.pwrite <= 0;
-      for(int i=0; i<16; i++)begin
-         _if.paddr = i;
-         #20;
-      end**/
       test t0;
       t0 = new;
 
