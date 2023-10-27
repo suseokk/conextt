@@ -65,7 +65,7 @@ always @(posedge clk or negedge nrst) begin
             st <= ACCESS;
       end
       ACCESS : begin
-         if(pready)
+         if(!pready)
             st <= IDLE;
          else
             st <= ACCESS;
