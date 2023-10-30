@@ -1,22 +1,32 @@
 class Packet#(
-   //ADDR_WIDTH = 32,
+   ADDR_WIDTH = 32,
    DATA_WIDTH = 32,
    DATA_STRB = (DATA_WIDTH/8));
 
-   rand  bit [2:0] prot;
-   randc bit [DATA_STRB-1:0] pstrb;
-   randc logic [3:0] paddr;
-         //logic [3:0] paddr;
+         bit                    pwrite;
+   rand  bit [2:0]              prot;
+   randc bit [DATA_STRB-1:0]    pstrb;
+         logic [ADDR_WIDTH-1:0] paddr;
    rand  logic [DATA_WIDTH-1:0] pwdata;
-   rand  logic [DATA_WIDTH-1:0] prdata;
+         logic [DATA_WIDTH-1:0] prdata;
+   //rand  logic [DATA_WIDTH-1:0] prdata;
 
    constraint c_prot {prot == 1;}
    constraint c_pstrb {pstrb == 4'b1111;}
+   //constraint c_prdata {prdata == 0;}
    //constraint c_addr {paddr inside {[0:15]};}
    //constraint c_addr {paddr < 16;}
 
    function void print(string tag="");
-      //$display("T=%0t [%s] paddr=%0h pwdata=%0h prdata=%0h", $time, tag, paddr, pwdata, prdata);
+      $display("T=%0t [%s]\tpwrite=%0d paddr=%0h pwdata=%0h prdata=%0h", $time, tag, pwrite, paddr, pwdata, prdata);
+   endfunction
+
+   function void copy(Packet tmp);
+      this.pwrite =tmp.pwrite;
+      this.prot   =tmp.prot;
+      this.paddr  =tmp.paddr;
+      this.pwdata =tmp.pwdata;
+      this.prdata =tmp.prdata;
    endfunction
 endclass
 
@@ -27,62 +37,57 @@ class driver;
    mailbox drv_mbx;
 
    task run();
-      //$display("driver is starting");
       _vif.psel    = 0;
       _vif.penable = 0;
-      @(posedge clk_vif.clk);
       forever begin
          Packet item;
 
+         @(posedge clk_vif.clk);
+         drv_mbx.get(item);
+         @(negedge clk_vif.clk);
          _vif.psel    = 1;
          _vif.penable = 0;
-         drv_mbx.get(item);
+         _vif.pwrite = item.pwrite;
          _vif.prot   = item.prot;
          _vif.pstrb  = item.pstrb;
          _vif.paddr  = item.paddr;
          _vif.pwdata = item.pwdata;
-         _vif.prdata = item.prdata;
-         ->drv_done;
          item.print("driver");
-         @(posedge clk_vif.clk);
-         //@(negedge clk_vif.clk);
+         @(negedge clk_vif.clk);
          _vif.penable = 1;
-         @(posedge clk_vif.clk);
+         @(negedge clk_vif.clk);
          _vif.psel    = 0;
          _vif.penable = 0;
-         @(posedge clk_vif.clk);
+         ->drv_done;
       end
    endtask
 endclass
 
 class generator;
-   virtual tb_if _vif;
    virtual tb_clk_if clk_vif;
    event drv_done;
    mailbox drv_mbx;
 
    task run();
       //for (int i=0; i<$size(_vif.paddr); i++)begin
-      for (int i=0; i<16; i++) begin
-         Packet item = new;
+      for (int i=0; i<2; i++) begin
+         Packet pkt = new;
 
-         if (i < 16) begin
-            _vif.pwrite = 1;
-            //_vif.paddr = i;
-         end else begin
-            _vif.pwrite = 0;
-            //_vif.paddr = i-16;
-         end
-         item.randomize();
-         //assert (item.randomize());
-         //item.randomize() with {
+         @(negedge clk_vif.clk);
+         pkt.randomize();
+         //pkt.randomize() with {
          //                        prot == 1;
          //                        pstrb == 4'b1111;};
-         //$display("T=%0t %0d/%0d [gernerated] paddr=%0h pwdata=%0h prdata=%0h",$time, i+1,$size(_vif.paddr), item.paddr, item.pwdata, item.prdata);
-         $display("T=%0t %0d/%0d [gernerated] paddr=%0h paddr=%0d paddr=%0b", $time, i+1,$size(_vif.paddr), item.paddr, item.paddr, item.paddr);
-         drv_mbx.put(item);
+         if (i < 16) begin
+            pkt.pwrite = 1;
+            pkt.paddr = i;
+         end else begin
+            pkt.pwrite = 0;
+            pkt.paddr = i-16;
+         end
+         $display("T=%0t [gernerator]\tpwrite=%0h paddr=%0h pwdata=%0h prdata=%0h %0d/32 ", $time, pkt.pwrite, pkt.paddr, pkt.pwdata, pkt.prdata, i+1);
+         drv_mbx.put(pkt);
          @(drv_done);
-         @(negedge clk_vif.clk);
       end
    endtask
 endclass
@@ -93,14 +98,13 @@ class monitor;
    mailbox scb_mbx;
 
    task run();
-      //$display("monitor is starting");
-      @(posedge clk_vif.clk);
       forever begin
          Packet rtl_item = new();
+
          @(posedge clk_vif.clk);
          if (_vif.psel & _vif.penable) begin
-            //rtl_item.prot   = _vif.prot;
-            //rtl_item.pstrb  = _vif.pstrb;
+            @(negedge clk_vif.clk);
+            rtl_item.pwrite = _vif.pwrite;
             rtl_item.paddr  = _vif.paddr;
             rtl_item.pwdata = _vif.pwdata;
             rtl_item.prdata = _vif.prdata;
@@ -115,21 +119,28 @@ class scoreboard;
    virtual tb_if _vif;
    virtual tb_clk_if clk_vif;
    mailbox scb_mbx;
-   Packet ref_item[32];
+   Packet ref_queue[$];
 
    task run();
       forever begin
-         Packet rtl_item;
-         scb_mbx.get(rtl_item);
-         rtl_item.print("scoreboard");
-         /**if (rtl_item.pwrite & rtl_item.psel & rtl_item.penable & rtl_item.pready) begin
-            ref_item[rtl_item.paddr] = rtl_item;
+         Packet item;
+
+         @(posedge clk_vif.clk);
+         scb_mbx.get(item);
+         item.print("scoreboard");
+         if (_vif.pwrite) begin
+            ref_queue[item.paddr] = new;
+            ref_queue[item.paddr].copy(item);
+            ref_queue[item.paddr].prdata = item.pwdata;
+            //ref_queue[item.paddr].print("reference");
          end
-         if (ref_item[rtl_item.paddr].prdata == rtl_item.prdata) begin
-            $display("T=%0t PASS ref_prdata=%0h rtl_prdata=%0h",$time, ref_item[rtl_item.paddr], rtl_item.prdata);
-         end else begin
-            $display("T=%0t FAIL ref_prdata=%0h rtl_prdata=%0h",$time, ref_item[rtl_item.paddr], rtl_item.prdata);
-         end**/
+         if (!_vif.pwrite) begin
+            if (ref_queue[item.paddr].prdata != item.prdata) begin
+               $display("T=%0t [scoreboard] ERROR RTL-prdata=%0h REF-prdata=%0h", $time, item.prdata, ref_queue[item.paddr].prdata);
+            end else begin
+               $display("T=%0t [scoreboard] PASS RTL-prdata=%0h REF-prdata=%0h", $time, item.prdata, ref_queue[item.paddr].prdata);
+            end
+         end
       end
    endtask
 endclass
@@ -157,7 +168,6 @@ class env;
 
    virtual task run();
       d0._vif = _vif;
-      g0._vif = _vif;
       d0.clk_vif = clk_vif;
       g0.clk_vif = clk_vif;
 
@@ -210,8 +220,7 @@ interface tb_if#(
    bit pready;
    bit [2:0] prot;
    bit [DATA_STRB-1:0] pstrb;
-   //logic [ADDR_WIDTH-1:0] paddr;
-   logic [3:0] paddr;
+   logic [ADDR_WIDTH-1:0] paddr;
    logic [DATA_WIDTH-1:0] pwdata;
    logic [DATA_WIDTH-1:0] prdata;
    logic slverr;
@@ -252,7 +261,8 @@ module tb;
       t0.e0.clk_vif = clk_if;
 
       _if.nrst <= 0;
-      #10 _if.nrst <= 1;
+      @(posedge clk_if.clk);
+      _if.nrst <= 1;
       t0.run();
 
       #100 $finish;
