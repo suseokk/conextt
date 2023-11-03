@@ -4,26 +4,29 @@ class Packet#(
    DATA_STRB = (DATA_WIDTH/8));
 
          bit                    pwrite;
-   rand  bit [2:0]              prot;
+   randc bit [2:0]              prot;
    randc bit [DATA_STRB-1:0]    pstrb;
          logic [ADDR_WIDTH-1:0] paddr;
    rand  logic [DATA_WIDTH-1:0] pwdata;
          logic [DATA_WIDTH-1:0] prdata;
-   //rand  logic [DATA_WIDTH-1:0] prdata;
 
-   constraint c_prot {prot == 1;}
-   constraint c_pstrb {pstrb == 4'b1111;}
+   constraint c_prot {prot inside {[3'b000:3'b111]};}
+   constraint c_pstrb {pstrb inside {[4'b0000:4'b1111]};}
+   //constraint c_prot {0 <= prot; prot <= 7;}
+   //constraint c_pstrb {pstrb <= 4'b1111;}
+   //constraint c_pstrb {pstrb == 4'b1111;}
    //constraint c_prdata {prdata == 0;}
    //constraint c_addr {paddr inside {[0:15]};}
    //constraint c_addr {paddr < 16;}
 
    function void print(string tag="");
-      $display("T=%0t [%s]\tpwrite=%0d paddr=%0h pwdata=%0h prdata=%0h", $time, tag, pwrite, paddr, pwdata, prdata);
+      $display("T=%0t [%s]\tprot=%0b pstrb=%0b pwrite=%0d paddr=%0h pwdata=%0h prdata=%0h", $time, tag, prot, pstrb, pwrite, paddr, pwdata, prdata);
    endfunction
 
    function void copy(Packet tmp);
       this.pwrite =tmp.pwrite;
       this.prot   =tmp.prot;
+      this.pstrb  =tmp.pstrb;
       this.paddr  =tmp.paddr;
       this.pwdata =tmp.pwdata;
       this.prdata =tmp.prdata;
@@ -70,8 +73,8 @@ class generator;
 
    task run();
       //for (int i=0; i<$size(_vif.paddr); i++)begin
-      for (int i=0; i<2; i++) begin
-         Packet pkt = new;
+      Packet pkt = new;
+      for (int i=0; i<32; i++) begin
 
          @(negedge clk_vif.clk);
          pkt.randomize();
@@ -85,7 +88,7 @@ class generator;
             pkt.pwrite = 0;
             pkt.paddr = i-16;
          end
-         $display("T=%0t [gernerator]\tpwrite=%0h paddr=%0h pwdata=%0h prdata=%0h %0d/32 ", $time, pkt.pwrite, pkt.paddr, pkt.pwdata, pkt.prdata, i+1);
+         $display("T=%0t [gernerator]\tprot=%0b pstrb=%0b pwrite=%0h paddr=%0h pwdata=%0h prdata=%0h %0d/32 ", $time,pkt.prot, pkt.pstrb, pkt.pwrite, pkt.paddr, pkt.pwdata, pkt.prdata, i+1);
          drv_mbx.put(pkt);
          @(drv_done);
       end
@@ -105,6 +108,8 @@ class monitor;
          if (_vif.psel & _vif.penable) begin
             @(negedge clk_vif.clk);
             rtl_item.pwrite = _vif.pwrite;
+            rtl_item.prot   = _vif.prot;
+            rtl_item.pstrb  = _vif.pstrb;
             rtl_item.paddr  = _vif.paddr;
             rtl_item.pwdata = _vif.pwdata;
             rtl_item.prdata = _vif.prdata;
@@ -131,14 +136,15 @@ class scoreboard;
          if (_vif.pwrite) begin
             ref_queue[item.paddr] = new;
             ref_queue[item.paddr].copy(item);
-            ref_queue[item.paddr].prdata = item.pwdata;
+            ref_queue[item.paddr].prdata = _vif.prot[1] ? 32'h0 : item.pwdata & {{8{_vif.pstrb[3]}}, {8{_vif.pstrb[2]}}, {8{_vif.pstrb[1]}}, {8{_vif.pstrb[0]}}};
+            //ref_queue[item.paddr].prdata = item.pwdata;
             //ref_queue[item.paddr].print("reference");
          end
          if (!_vif.pwrite) begin
             if (ref_queue[item.paddr].prdata != item.prdata) begin
-               $display("T=%0t [scoreboard] ERROR RTL-prdata=%0h REF-prdata=%0h", $time, item.prdata, ref_queue[item.paddr].prdata);
+               $display("T=%0t [scoreboard]\t<ERROR>  prot=%0b pstrb=%0b  RTL-rdata=%0h  ref-rdata=%0h", $time, ref_queue[item.paddr].prot, ref_queue[item.paddr].pstrb, item.prdata, ref_queue[item.paddr].prdata);
             end else begin
-               $display("T=%0t [scoreboard] PASS RTL-prdata=%0h REF-prdata=%0h", $time, item.prdata, ref_queue[item.paddr].prdata);
+               $display("T=%0t [scoreboard]\t<PASS>  prot=%0b pstrb=%0b  RTL-rdata=%0h  ref-rdata=%0h", $time, ref_queue[item.paddr].prot, ref_queue[item.paddr].pstrb, item.prdata, ref_queue[item.paddr].prdata);
             end
          end
       end
@@ -272,4 +278,3 @@ module tb;
       $dumpfile("dump.vcd");
    end
 endmodule
-
