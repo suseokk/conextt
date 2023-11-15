@@ -9,7 +9,7 @@ command [output signal name] [input signal name] [bit number]
 """)
     exit()
 
-save_file = 'check_connection_test.txt'
+save_file = '11check_connection_test.txt'
 output_signal_name = sys.argv[1]
 input_signal_name  = sys.argv[2]
 bit_number = sys.argv[3]
